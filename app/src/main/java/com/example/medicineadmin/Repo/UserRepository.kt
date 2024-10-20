@@ -1,0 +1,47 @@
+package com.example.medicineadmin.Repo
+
+    import com.example.medicineadmin.network.ApiProvider
+    import com.example.medicineadmin.network.apiServices
+    import com.example.medicineadmin.network.response.UpdateUserResponse
+    import com.example.medicineadmin.network.response.getAllUserResponseItem
+
+    import kotlinx.coroutines.flow.Flow
+    import kotlinx.coroutines.flow.flow
+    import retrofit2.Response
+    import java.lang.Thread.State
+    import javax.inject.Inject
+
+class UserRepository @Inject constructor(
+    private val apiService: apiServices // Inject your ApiService
+) {
+    // Fetch users and return a flow of List<getAllUserResponseItem>
+    suspend fun getAllUsers(): Flow<List<getAllUserResponseItem>> = flow {
+        try {
+            // Assuming you use Retrofit to make the API call
+            val response = apiService.getAllUsers() // Make sure getAllUsers() returns getAllUserResponse
+            if (response.isSuccessful) {
+                // Emit the list of users (List<getAllUserResponseItem>)
+                emit(response.body() ?: emptyList())
+            } else {
+                // Emit an empty list if the response is not successful
+                emit(emptyList())
+            }
+        } catch (e: Exception) {
+            // Handle errors and emit an empty list in case of failure
+            emit(emptyList())
+        }
+    }
+
+  /*  suspend fun approvedUser(userId:String,isApproved:Int): Flow<State<Response<UpdateUserResponse>>> = flow{
+       emit(Result.Loading)
+       try{
+           val response = ApiProvider.apiPr
+           ovider().updateUserAllDetails(user_id=userId,isApproved=isApproved)
+       }
+    }*/
+
+
+}
+
+
+
