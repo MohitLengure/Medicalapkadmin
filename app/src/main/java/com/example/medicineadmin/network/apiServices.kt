@@ -17,14 +17,12 @@ interface apiServices {
 
 
 
-/*
     @FormUrlEncoded
     @PATCH("updateUserName")
-    suspend fun updateUserName(
-        @Field("userID") user_id: Int,
+    suspend fun updateUserAllDetails(
+        @Field("userID") user_id: String,
         @Field("isApproved") isApproved: Int,
     ): Response<UpdateUserResponse>
-*/
 
 
 

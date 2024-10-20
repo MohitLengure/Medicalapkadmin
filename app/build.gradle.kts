@@ -88,4 +88,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.50")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation( "com.google.accompanist:accompanist-swiperefresh:0.28.0")
 }
+
+

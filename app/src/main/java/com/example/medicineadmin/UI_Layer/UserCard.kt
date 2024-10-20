@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.medicineadmin.viewModel.UserViewModel
 
 @Composable
-fun UserCard(user: getAllUserResponseItem) {
+fun UserCard(user: getAllUserResponseItem,onClickApprove: ()-> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -42,13 +42,17 @@ fun UserCard(user: getAllUserResponseItem) {
 
             if(user.isApproved ==0)
             {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    onClickApprove()
+                }) {
                     Text(text = "Approve")
                 }
             }
             else
             {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+
+                }) {
                     Text(text = "Disapprove")
                 }
             }

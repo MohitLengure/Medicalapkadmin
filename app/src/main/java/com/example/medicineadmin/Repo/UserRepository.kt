@@ -1,5 +1,6 @@
 package com.example.medicineadmin.Repo
 
+    import com.example.medicineadmin.State
     import com.example.medicineadmin.network.ApiProvider
     import com.example.medicineadmin.network.apiServices
     import com.example.medicineadmin.network.response.UpdateUserResponse
@@ -8,7 +9,6 @@ package com.example.medicineadmin.Repo
     import kotlinx.coroutines.flow.Flow
     import kotlinx.coroutines.flow.flow
     import retrofit2.Response
-    import java.lang.Thread.State
     import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -32,13 +32,16 @@ class UserRepository @Inject constructor(
         }
     }
 
-  /*  suspend fun approvedUser(userId:String,isApproved:Int): Flow<State<Response<UpdateUserResponse>>> = flow{
-       emit(Result.Loading)
+    suspend fun approvedUser(userId:String,isApproved:Int): Flow<State<Response<UpdateUserResponse>>> = flow{
+       emit(State.Loading)
        try{
-           val response = ApiProvider.apiPr
-           ovider().updateUserAllDetails(user_id=userId,isApproved=isApproved)
+           val response = ApiProvider.apiProvider().updateUserAllDetails(user_id=userId,isApproved=isApproved)
+       }catch (e:Exception)
+       {
+           emit(State.Error(e.message.toString()))
        }
-    }*/
+    }
+
 
 
 }
