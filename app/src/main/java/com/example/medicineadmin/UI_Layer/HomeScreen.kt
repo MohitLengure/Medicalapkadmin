@@ -21,7 +21,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.medicineadmin.viewModel.UserViewModel
 import kotlinx.coroutines.delay
@@ -62,7 +61,7 @@ fun HomeScreen(viewModel: UserViewModel = hiltViewModel()) {
     }
 
     // Ensure 'usersState' is a list of 'getAllUserResponseItem'
-    Scaffold(modifier = Modifier.padding(top = 90.dp, bottom = 100.dp)) {
+    Scaffold(modifier = Modifier) {
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing),
             onRefresh = {

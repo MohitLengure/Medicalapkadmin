@@ -123,7 +123,9 @@ fun MainScreen()
             }
 
         ) { innerPadding ->
-            ContentScreen(modifier= Modifier.padding(innerPadding),selectedIndex)
+            Scaffold(modifier = Modifier.padding(top = 90.dp, bottom = 100.dp).fillMaxSize()) {
+                ContentScreen(modifier= Modifier.padding(innerPadding),selectedIndex)
+            }
         }
 
 

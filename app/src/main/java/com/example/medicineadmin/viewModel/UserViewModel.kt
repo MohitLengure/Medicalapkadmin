@@ -6,11 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.medicineadmin.Repo.UserRepository
 import com.example.medicineadmin.State
 import com.example.medicineadmin.network.response.UpdateUserResponse
+import com.example.medicineadmin.network.response.addproductResponse
 import com.example.medicineadmin.network.response.getAllUserResponseItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -25,11 +26,7 @@ class UserViewModel @Inject constructor(
     private val _usersFlow = MutableStateFlow<List<getAllUserResponseItem>>(emptyList())
     val usersFlow = _usersFlow.asStateFlow()
 
-    private val _updateUserState = MutableStateFlow(UpdateUserState())
-    val updateUserState = _updateUserState.asStateFlow()
-
-
-    init {
+       init {
         getAllUsers()  // Call to load users on initialization
     }
 
@@ -43,6 +40,14 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun refreshUsers() {
+        getAllUsers()
+    }
+
+
+    //Update User State
+    private val _updateUserState = MutableStateFlow(UpdateUserState())
+    val updateUserState = _updateUserState.asStateFlow()
 
     fun approveUser(userId: String, isApproved: Int) {
         viewModelScope.launch {
@@ -63,15 +68,56 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun refreshUsers() {
-        getAllUsers()
+
+
+    //Add Product State
+
+    private val _addProductState = MutableStateFlow(AddProductState())
+    val addProductState = _addProductState.asStateFlow()
+
+
+    fun addProduct(
+        ProductName: String,
+        ProductPrice: String,
+        ProductCategory: String,
+        Stock: Int,
+        Expiredate: String
+    ){
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.addProduct(
+                productName = ProductName,
+                productPrice = ProductPrice,
+                productCategory = ProductCategory,
+                stock = Stock,
+                expiredate=Expiredate)
+                .collect {
+                    when (it) {
+                        is State.Loading -> {
+                            _addProductState.value = AddProductState(Loading = true)
+                        }
+                        is State.Success -> {
+                            _addProductState.value = AddProductState(Data = it.data,Loading = false)
+                        }
+                        is State.Error -> {
+                            _addProductState.value = AddProductState(Error = it.message,Loading = false)
+                        }
+                    }
+                }
+                }
+        }
     }
 
 
-}
+
+
 
 data class UpdateUserState(
     val Loading: Boolean = false,
     val Error: String? = null,
     val Data: Response<UpdateUserResponse>? = null
+)
+data class AddProductState(
+    val Loading: Boolean = false,
+    val Error: String? = null,
+    val Data: Response<addproductResponse>? = null
 )

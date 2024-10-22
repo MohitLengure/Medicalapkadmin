@@ -26,7 +26,7 @@ object DataModule {
             .create(apiServices::class.java)
     }
 
-  /*  @Provides
+/*    @Provides
     @Singleton
     fun provideUserRepository(apiService: apiServices): UserRepository {
         return UserRepository(apiService)

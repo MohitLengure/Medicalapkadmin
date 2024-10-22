@@ -14,6 +14,8 @@ object ApiProvider {
 
         val apiService: apiServices = retrofit.create(apiServices::class.java)
 
+
+
     fun apiProvider()=Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(OkHttpClient.Builder().build())
